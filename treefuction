@@ -1,0 +1,98 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct node
+{
+	int data;
+	struct node *left,*right;
+}node;
+node *create(node *root)
+{
+	node *newnode,*temp,*parent;
+	int i,n;
+	printf("Enter limit:");
+	scanf("%d",&n);
+	for(i=0;i<n;i++)
+	{
+		newnode=(node *)malloc(sizeof(node));
+		printf("Enter value:");
+		scanf("%d",&newnode->data);
+		newnode->left=NULL;
+		newnode->right=NULL;
+		if(root==NULL)
+		{
+			root=newnode;
+			continue;
+		}
+		temp=root;
+		while(temp!=NULL)
+		{
+			parent=temp;
+		if(newnode->data<=temp->data)
+		{
+			temp=temp->left;
+		}
+		else
+		temp=temp->right;
+	}
+		if(newnode->data<=parent->data)
+		parent->left=newnode;
+		else
+		parent->right=newnode;
+}
+	return root;
+}
+void preorder(node *root)
+{
+	node *temp=root;
+	if(temp!=NULL)
+	{
+		printf("%d\t",temp->data);
+		preorder(temp->left);
+		preorder(temp->right);
+	}
+}
+void minvalue(node *root)
+{
+	node *temp=root;
+	while(temp!=NULL && temp->left!=NULL )
+	{
+		temp=temp->left;	
+	}
+		printf("%d",temp->data);
+}
+void maxvalue(node *root)
+{
+	node *temp=root;
+	while(temp!=NULL && temp->right!=NULL)
+	{
+		temp=temp->right;
+	}
+	printf("%d",temp->data);
+}
+node *copy(node *root)
+{
+	node *newnode,*temp=root;
+	if(temp!=NULL)
+	{
+	newnode=(node *)malloc(sizeof(node));
+	newnode->data=temp->data;
+	newnode->left=copy(temp->left);
+	newnode->right=copy(temp->right);
+}
+return newnode;
+}
+
+int main()
+{
+	node *root=NULL;
+	node *root2=NULL;
+	root=create(root);
+	preorder(root);
+	printf("\nMinimum value::");
+	minvalue(root);
+	printf("\nMaximum value::");
+	maxvalue(root);
+	printf("\ncopied tree::");
+	root2=copy(root);
+	preorder(root2);
+}
